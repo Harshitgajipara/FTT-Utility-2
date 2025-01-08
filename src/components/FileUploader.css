@@ -1,0 +1,38 @@
+.file-uploader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #eaf7ff; /* Softer blue for better readability */
+    text-align: center;
+    padding: 30px;
+    font-family: 'Arial', sans-serif;
+}
+
+.file-uploader h2 {
+    margin-bottom: 20px;
+    font-size: 28px; /* Slightly larger font for headers */
+    color: #003366; /* Dark blue for better contrast */
+}
+
+.file-uploader input[type="file"] {
+    padding: 12px;
+    border: 2px dashed #4a90e2; /* Dashed border for file input */
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    color: #333;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.file-uploader input[type="file"]:hover {
+    background-color: #e0f0ff; /* Highlight on hover */
+}
+
+.file-uploader input[type="file"]:focus {
+    outline: none;
+    border-color: #0056b3; /* Deep blue focus border */
+}

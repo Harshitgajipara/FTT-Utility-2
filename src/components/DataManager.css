@@ -1,0 +1,181 @@
+.data-manager {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 1200px; /* Center content and limit width */
+    font-family: 'Arial', sans-serif;
+    background-color: #f9fbfd; /* Subtle off-white background */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Light shadow for emphasis */
+}
+
+.data-manager h2 {
+    text-align: center;
+    color: #0056b3; /* Deep blue for title */
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.data-manager h3, .data-manager h4 {
+    margin-top: 20px;
+    margin-bottom: 15px;
+    color: #004085; /* Slightly lighter blue */
+    border-bottom: 2px solid #80bfff; /* Light blue underline */
+    padding-bottom: 5px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.p-datatable {
+    width: 100%;
+    border-collapse: collapse; /* Merge borders for consistent lines */
+    margin-bottom: 25px;
+    font-size: 14px;
+    background-color: #ffffff; /* White background for clarity */
+    border: 1px solid #ddd; /* Outer border for the table */
+    border-radius: 5px;
+    overflow: hidden;
+    scroll-behavior: smooth; /* Enable smooth scrolling */
+}
+
+.p-datatable th, .p-datatable td {
+    border: 1px solid #ddd; /* Border between cells */
+    padding: 10px; /* Cell padding */
+    text-align: center; /* Center text */
+}
+
+.p-datatable th {
+    background-color: #007bff; /* Bright blue for headers */
+    color: #ffffff; /* White text for contrast */
+    font-weight: bold;
+}
+
+.p-datatable td {
+    color: #333; /* Dark gray text for readability */
+}
+
+.p-datatable tr:nth-child(even) {
+    background-color: #f2f8fc; /* Light blue-gray alternate row */
+}
+
+.p-datatable tr:hover {
+    background-color: #e6f2ff; /* Slightly darker blue highlight on hover */
+}
+
+.route-detail-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #ffffff; /* White background for sections */
+    border-radius: 8px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    border: 1px solid #ddd; /* Outline for clarity */
+}
+
+.route-detail-section h4 {
+    color: #003366;
+    font-size: 20px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.scrollable {
+    overflow-x: auto;
+    margin-bottom: 15px;
+    scroll-behavior: smooth; /* Enable smooth scrolling */
+}
+
+.table-wrapper {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #f4f8fc; /* Very light blue background */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Custom scrollbar for scrollable tables */
+.scrollable::-webkit-scrollbar {
+    height: 8px;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+    background: #007bff; /* Matching scrollbar color */
+    border-radius: 4px;
+}
+
+.scrollable::-webkit-scrollbar-thumb:hover {
+    background: #0056b3; /* Darker on hover */
+}
+
+/* Style for Expand All and Collapse All Buttons */
+.flex .pi-plus, .flex .pi-minus {
+    background-color: #007bff; /* Bright blue background */
+    color: #ffffff; /* White icon color */
+    border: none; /* Remove border */
+    padding: 8px 16px; /* Padding for the button */
+    border-radius: 4px; /* Rounded corners */
+    font-weight: bold; /* Bold font for text */
+    transition: background-color 0.3s ease; /* Smooth transition */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.flex .pi-plus:hover, .flex .pi-minus:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.flex .pi-plus:focus, .flex .pi-minus:focus {
+    outline: none; /* Remove outline on focus */
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); /* Focus outline */
+}
+
+/* Pagination Button Styling */
+.p-paginator .p-paginator-prev, .p-paginator .p-paginator-next {
+    background-color: #007bff; /* Bright blue background */
+    color: #ffffff; /* White text color */
+    border: none; /* Remove border */
+    padding: 8px 16px; /* Padding for buttons */
+    border-radius: 4px; /* Rounded corners */
+    font-weight: bold; /* Bold font for text */
+    transition: background-color 0.3s ease; /* Smooth transition */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.p-paginator .p-paginator-prev:hover, .p-paginator .p-paginator-next:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.p-paginator .p-paginator-page {
+    background-color: #ffffff; /* White background */
+    color: #007bff; /* Bright blue text */
+    border: 1px solid #ddd; /* Light gray border */
+    padding: 6px 12px; /* Padding for page numbers */
+    border-radius: 4px; /* Rounded corners */
+    font-weight: bold; /* Bold font */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.p-paginator .p-paginator-page:hover {
+    background-color: #f1f8ff; /* Light blue-gray background on hover */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.p-paginator .p-paginator-page.p-paginator-active {
+    background-color: #0056b3; /* Active page background color */
+    color: #ffffff; /* White text for active page */
+    border-color: #0056b3; /* Matching border color */
+}
+
+.p-paginator .p-paginator-jump {
+    background-color: #ffffff; /* White background */
+    color: #007bff; /* Bright blue text */
+    border: 1px solid #ddd; /* Light gray border */
+    padding: 6px 12px; /* Padding for the jump button */
+    border-radius: 4px; /* Rounded corners */
+}
+
+.p-paginator .p-paginator-jump:hover {
+    background-color: #f1f8ff; /* Light blue-gray background on hover */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
