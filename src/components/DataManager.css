@@ -1,7 +1,7 @@
 .data-manager {
     margin: 20px auto;
     padding: 20px;
-    max-width: 1200px; /* Center content and limit width */
+    max-width: 1500px; /* Center content and limit width */
     font-family: 'Arial', sans-serif;
     background-color: #f9fbfd; /* Subtle off-white background */
     border-radius: 8px;
@@ -24,6 +24,7 @@
     padding-bottom: 5px;
     font-size: 22px;
     font-weight: bold;
+    text-align: left;
 }
 
 .p-datatable {
@@ -36,6 +37,7 @@
     border-radius: 5px;
     overflow: hidden;
     scroll-behavior: smooth; /* Enable smooth scrolling */
+    margin-top: 10px;
 }
 
 .p-datatable th, .p-datatable td {
@@ -179,3 +181,18 @@
     cursor: pointer; /* Pointer cursor on hover */
 }
 
+/* Success row (green background) */
+.success-row {
+    background-color: #d4edda !important;
+
+}
+
+/* Error row (red background) */
+.error-row {
+    background-color: #f8d7da !important;
+}
+
+/* General Table Row Styles */
+.p-datatable tbody tr {
+    border: 1px solid #dddddd;
+}

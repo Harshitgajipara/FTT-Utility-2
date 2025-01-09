@@ -5,6 +5,7 @@ import { Button } from 'primereact/button';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
+import './DataManager.css';
 
 // Import model classes
 import FileHeader from './FileHeader';
@@ -12,7 +13,7 @@ import RouteHeader from './RouteHeader';
 import ItemDetail from './ItemDetail';
 import RouteFooter from './RouteFooter';
 import FileFooter from './FileFooter';
-import './DataManager.css';
+
 
 const DataManager = ({ fileData }) => {
   const [fileHeaders, setFileHeaders] = useState([]);
@@ -33,7 +34,6 @@ const DataManager = ({ fileData }) => {
     lines.forEach((line) => {
       let lastCharIndex = line.trim().length;
 
-      // Set default value for unrecognized line formats
       if (lastCharIndex > 1 && ![14, 123, 43, 23].includes(lastCharIndex)) {
         lastCharIndex = 81;
       }
@@ -117,63 +117,134 @@ const DataManager = ({ fileData }) => {
     setFileFooters(tempFileFooters);
   };
 
-  // Row expansion template for route details
-  const rowExpansionTemplate = (data) => {
-    // Calculate total number of units based on the sign
+  // Check for errors in RouteFooter
+  const checkRouteFooterErrors = (routeFooter, itemDetails) => {
     let calculatedTotalUnits = 0;
-    data.itemDetails.forEach((item) => {
+    let calculatedTotalApprovedPA = 0;
+
+    itemDetails.forEach((item) => {
       const units = parseInt(item.numberOfUnits, 10) || 0;
+      const approvedPA = parseInt(item.approvedPAAmount, 10) / 100 || 0;
+
       if (item.unitsSign === '+') {
         calculatedTotalUnits += units;
       } else if (item.unitsSign === '-') {
         calculatedTotalUnits -= units;
       }
+
+      if (item.approvedPASign === '+') {
+        calculatedTotalApprovedPA += approvedPA;
+      } else if (item.approvedPASign === '-') {
+        calculatedTotalApprovedPA -= approvedPA;
+      }
     });
-  
-    // Check if the total units at route matches the calculated total
-    const totalUnitsAtRoute = parseInt(data.routeFooter.totalUnitsAtRoute, 10) || 0;
-    const isMismatch = calculatedTotalUnits !== totalUnitsAtRoute;
-  
+
+    const totalUnitsAtRoute = parseInt(routeFooter.totalUnitsAtRoute, 10) || 0;
+    const totalApprovedPAAtRoute = parseInt(routeFooter.totalApprovedPAAmountAtRoute, 10) || 0;
+
+    const isUnitsMismatch = calculatedTotalUnits !== totalUnitsAtRoute;
+    const isApprovedPAMismatch = calculatedTotalApprovedPA !== totalApprovedPAAtRoute;
+
+    const isUnitsSignMismatch = calculatedTotalUnits > 0 && routeFooter.unitsSign === '-';
+    const isPASignMismatch = calculatedTotalApprovedPA > 0 && routeFooter.paAmountSign === '-';
+
     return (
-      <div>
-        <h4>Item Details</h4>
-        <DataTable value={data.itemDetails} scrollable scrollHeight="300px" editMode="cell">
-          <Column field="lineNumber" header="Line Number" />
-          <Column field="registerType" header="Register Type" />
-          <Column field="productCode" header="Product Code" />
-          <Column field="productDescription" header="Product Description" />
-          <Column field="unitsSign" header="Units Sign" />
-          <Column field="numberOfUnits" header="Number Of Units" />
-          <Column field="grossSaleAmount" header="Gross Sale Amount" />
-          <Column field="netAmountSign" header="Net Amount Sign" />
-          <Column field="netSaleAmount" header="Net Sale Amount" />
-          <Column field="approvedPASign" header="Approved PA Sign" />
-          <Column field="approvedPAAmount" header="Approved PA Amount" />
-          <Column field="adjustmentSign" header="Adjustment Sign" />
-          <Column field="adjustmentAmount" header="Adjustment Amount" />
-          <Column field="pePrice" header="PE Price" />
-        </DataTable>
-  
-        <h4>Route Footer</h4>
-        <DataTable value={[data.routeFooter]} scrollable scrollHeight="150px" editMode="cell">
-          <Column field="lineNumber" header="Line Number" />
-          <Column field="registerType" header="Register Type" />
-          <Column field="routeNumber" header="Route Number" />
-          <Column field="returnCustomerNumber" header="Return Customer Number" />
-          <Column field="unitsSign" header="Units Sign" />
-          <Column field="totalUnitsAtRoute" 
-            header="Total Units at Route" 
-            style={{ backgroundColor: isMismatch ? 'red' : '' }}  // Apply red background if mismatch
-          />
-          <Column field="paAmountSign" header="PA Amount Sign" />
-          <Column field="totalApprovedPAAmountAtRoute" header="Total Approved PA Amount at Route" />
-        </DataTable>
-      </div>
+      isUnitsMismatch || isApprovedPAMismatch || isUnitsSignMismatch || isPASignMismatch
     );
   };
-  
 
-  // Expand and collapse all rows
+  // Row expansion template for route details
+  const rowExpansionTemplate = (data) => {
+  // Calculating total units and total approved PA
+  let calculatedTotalUnits = 0;
+  let calculatedTotalApprovedPA = 0;
+
+  data.itemDetails.forEach((item) => {
+    const units = parseInt(item.numberOfUnits, 10) || 0;
+    const approvedPA = parseInt(item.approvedPAAmount, 10) / 100 || 0;
+
+    if (item.unitsSign === '+') {
+      calculatedTotalUnits += units;
+    } else if (item.unitsSign === '-') {
+      calculatedTotalUnits -= units;
+    }
+
+    if (item.approvedPASign === '+') {
+      calculatedTotalApprovedPA += approvedPA;
+    } else if (item.approvedPASign === '-') {
+      calculatedTotalApprovedPA -= approvedPA;
+    }
+  });
+
+  const { routeFooter } = data;
+
+  const isUnitsMismatch = parseInt(routeFooter.totalUnitsAtRoute, 10) !== calculatedTotalUnits;
+  const isApprovedPAMismatch = parseInt(routeFooter.totalApprovedPAAmountAtRoute, 10) !== calculatedTotalApprovedPA;
+
+  const unitsSignMismatch = isUnitsMismatch && routeFooter.unitsSign === '-';
+  const paSignMismatch = isApprovedPAMismatch && routeFooter.paAmountSign === '-';
+
+  return (
+    <div>
+      <h4>Item Details</h4>
+      <DataTable value={data.itemDetails} scrollable scrollHeight="300px" editMode="cell">
+        <Column field="lineNumber" header="Line Number" />
+        <Column field="registerType" header="Register Type" />
+        <Column field="productCode" header="Product Code" />
+        <Column field="productDescription" header="Product Description" />
+        <Column field="unitsSign" header="Units Sign" />
+        <Column field="numberOfUnits" header="Number Of Units" />
+        <Column field="grossSaleAmount" header="Gross Sale Amount" />
+        <Column field="netAmountSign" header="Net Amount Sign" />
+        <Column field="netSaleAmount" header="Net Sale Amount" />
+        <Column field="approvedPASign" header="Approved PA Sign" />
+        <Column field="approvedPAAmount" header="Approved PA Amount" />
+        <Column field="adjustmentSign" header="Adjustment Sign" />
+        <Column field="adjustmentAmount" header="Adjustment Amount" />
+        <Column field="pePrice" header="PE Price" />
+      </DataTable>
+
+      <h4>Route Footer</h4>
+      <DataTable value={[routeFooter]} scrollable scrollHeight="150px" editMode="cell">
+        <Column field="lineNumber" header="Line Number" />
+        <Column field="registerType" header="Register Type" />
+        <Column field="routeNumber" header="Route Number" />
+        <Column field="returnCustomerNumber" header="Return Customer Number" />
+
+        <Column
+          field="unitsSign"
+          header="Units Sign"
+          bodyStyle={{ backgroundColor: unitsSignMismatch ? '#f8d7da' : '' }}
+        />
+
+        <Column
+          field="totalUnitsAtRoute"
+          header="Total Units at Route"
+          bodyStyle={{ backgroundColor: isUnitsMismatch ? '#f8d7da' : '' }}
+        />
+        
+        <Column
+          field="paAmountSign"
+          header="PA Amount Sign"
+          bodyStyle={{ backgroundColor: paSignMismatch ? '#f8d7da' : '' }}
+        />
+        
+        <Column
+          field="totalApprovedPAAmountAtRoute"
+          header="Total Approved PA Amount at Route"
+          bodyStyle={{ backgroundColor: isApprovedPAMismatch ? '#f8d7da' : '' }}
+        />
+      </DataTable>
+    </div>
+  );
+};
+
+
+  const rowClassName = (data) => {
+    const hasError = checkRouteFooterErrors(data.routeFooter, data.itemDetails);
+    return hasError ? 'error-row' : 'success-row';
+  };
+
   const expandAll = () => {
     setExpandedRows(routeDetails);
   };
@@ -186,7 +257,6 @@ const DataManager = ({ fileData }) => {
     <div className="data-manager">
       <h2>Data Manager</h2>
 
-      {/* File Header Table */}
       <h3>File Headers</h3>
       <DataTable value={fileHeaders} editMode="cell">
         <Column field="lineNumber" header="Line Number" />
@@ -194,7 +264,6 @@ const DataManager = ({ fileData }) => {
         <Column field="proposedSalesDate" header="Proposed Sales Date" />
       </DataTable>
 
-      {/* Route Details Table */}
       <div className="route-details">
         <h3>Route Details</h3>
         <div className="flex flex-wrap justify-content-end gap-2">
@@ -207,6 +276,7 @@ const DataManager = ({ fileData }) => {
           onRowToggle={(e) => setExpandedRows(e.data)}
           rowExpansionTemplate={rowExpansionTemplate}
           dataKey="routeHeader.lineNumber"
+          rowClassName={rowClassName}
         >
           <Column expander style={{ width: '3em' }} />
           <Column field="routeHeader.lineNumber" header="Line Number" />
@@ -220,7 +290,6 @@ const DataManager = ({ fileData }) => {
         </DataTable>
       </div>
 
-      {/* File Footer Table */}
       <h3>File Footers</h3>
       <DataTable value={fileFooters} editMode="cell">
         <Column field="lineNumber" header="Line Number" />
