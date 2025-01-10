@@ -140,7 +140,6 @@ const DataManager = ({ fileData }) => {
     const totalUnitsAtRoute = parseInt(routeFooter.totalUnitsAtRoute, 10) || 0;
     const totalApprovedPAAtRoute = parseInt(routeFooter.totalApprovedPAAmountAtRoute, 10) || 0;
   
-    // Allow for small discrepancies due to rounding
     const isUnitsMismatch = Math.abs(calculatedTotalUnits) - totalUnitsAtRoute !== 0;
     const isApprovedPAMismatch = Math.abs(Math.round(calculatedTotalApprovedPA)) - totalApprovedPAAtRoute !== 0;
     // console.log(isUnitsMismatch);
