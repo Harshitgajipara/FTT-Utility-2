@@ -262,7 +262,7 @@ const DataManager = ({ fileData }) => {
     };
 
     const rowClassName = (data) => {
-        // console.log('----------------------------START--------------------------------');
+        // console.log('---------------------------START--------------------------------');
         const hasError = checkRouteFooterErrors(data.routeFooter, data.itemDetails);
         // console.log('----------------------------END--------------------------------');
         return hasError ? 'error-row' : 'success-row';
